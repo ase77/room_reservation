@@ -30,7 +30,7 @@ python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Создать файл .env в корне проекта:
+Создать файл `.env` в корне проекта:
 
 ```
 APP_TITLE=Ваше название проекта
