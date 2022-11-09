@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import and_, between, or_, select
 
 from app.crud.base import CRUDBase
-from app.models.reservation import Reservation
+from app.models import Reservation, User
 
 
 class CRUDReservation(CRUDBase):
@@ -58,6 +58,22 @@ class CRUDReservation(CRUDBase):
             )
         # Выполняем запрос.
         reservations = await session.execute(select_stmt)
+        reservations = reservations.scalars().all()
+        return reservations
+
+    async def get_by_user(
+            self,
+            user: User,
+            session: AsyncSession,
+    ):
+        reservations = await session.execute(
+            # Получить все объекты Reservation.
+            select(Reservation).where(
+                # Где внешний ключ meetingroom_id
+                # равен id запрашиваемой переговорки.
+                Reservation.user_id == user.id
+            )
+        )
         reservations = reservations.scalars().all()
         return reservations
 
